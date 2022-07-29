@@ -11,7 +11,11 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
+    public Text highScoreText;
     public GameObject GameOverText;
+
+    private int highScore;
+    private string bestPlayerName;
     
     private bool m_Started = false;
     private int m_Points;
@@ -22,6 +26,7 @@ public class MainManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //spawns in all the blocks
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -36,10 +41,15 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+
+        bestPlayerName = NameManager.bestPlayerName;
+        highScore = NameManager.highScore;
+        highScoreText.text = "Best Score: " + NameManager.bestPlayerName + ": " + NameManager.highScore;
     }
 
     private void Update()
     {
+        //puts the ball in play
         if (!m_Started)
         {
             if (Input.GetKeyDown(KeyCode.Space))
@@ -53,6 +63,7 @@ public class MainManager : MonoBehaviour
                 Ball.AddForce(forceDir * 2.0f, ForceMode.VelocityChange);
             }
         }
+        //restart button
         else if (m_GameOver)
         {
             if (Input.GetKeyDown(KeyCode.Space))
@@ -65,7 +76,14 @@ public class MainManager : MonoBehaviour
     void AddPoint(int point)
     {
         m_Points += point;
-        ScoreText.text = $"Score : {m_Points}";
+        ScoreText.text = NameManager.playerName + "'s" + $" Score : {m_Points}";
+        if(m_Points > highScore)
+        {
+            NameManager.highScore = m_Points;
+            NameManager.bestPlayerName = NameManager.playerName;
+            highScoreText.text = "Best Score: " + NameManager.playerName + ": " + m_Points;
+            NameManager.Instance.SaveScore();
+        }
     }
 
     public void GameOver()
