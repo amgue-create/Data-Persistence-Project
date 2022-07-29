@@ -48,6 +48,7 @@ public class MainManager : MonoBehaviour
         bestPlayerName = NameManager.bestPlayerName;
         highScore = NameManager.highScore;
         highScoreText.text = "Best Score: " + NameManager.bestPlayerName + ": " + NameManager.highScore;
+        ScoreText.text = NameManager.playerName + "'s" + $" Score : {m_Points}";
     }
 
     private void Update()
