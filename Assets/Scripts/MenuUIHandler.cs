@@ -24,7 +24,6 @@ public class MenuUIHandler : MonoBehaviour
 
     public void Exit()
     {
-        // save best player name and score here  (refere back to MenuUIHandler in previous project)
 #if UNITY_EDITOR
         EditorApplication.ExitPlaymode();
 #else
