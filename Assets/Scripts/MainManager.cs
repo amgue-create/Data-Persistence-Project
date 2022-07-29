@@ -94,12 +94,15 @@ public class MainManager : MonoBehaviour
             NameManager.highScore = m_Points;
             NameManager.bestPlayerName = NameManager.playerName;
             highScoreText.text = "Best Score: " + NameManager.playerName + ": " + m_Points;
-            NameManager.Instance.SaveScore();
         }
     }
 
     public void GameOver()
     {
+        if(m_Points > highScore)
+        {
+            NameManager.Instance.SaveScore();
+        }
         m_GameOver = true;
         GameOverText.SetActive(true);
     }
